@@ -4,11 +4,18 @@
 #include <iostream>
 #include <vector>
 #include <filesystem>
+#include "Statistic_Functions.h"
 
 int main(int argc, const char** argv) {
 	namespace fs = std::filesystem;
 
 	if (argc == 1) {
+
+	}
+	else if (argc == 2) {
+
+	}
+	else if (argc > 2) {
 
 	}
 
@@ -18,6 +25,7 @@ int main(int argc, const char** argv) {
 		if (!p.is_directory()) {
 			std::cout << "    File size:" << p.file_size() << std::endl;
 			std::cout << "    Extension:" << p.path().extension() << std::endl;
+			count_lines(p.path());
 		}
 	}
 
