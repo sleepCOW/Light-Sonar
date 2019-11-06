@@ -2,10 +2,16 @@
 //
 
 #include <iostream>
+#include <vector>
 #include <filesystem>
 
 int main(int argc, const char** argv) {
 	namespace fs = std::filesystem;
+
+	if (argc == 1) {
+
+	}
+
 
 	for (auto& p : fs::directory_iterator(argv[1])) {
 		std::cout << p.path() << std::endl;
