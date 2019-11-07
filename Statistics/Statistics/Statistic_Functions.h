@@ -1,4 +1,5 @@
 #pragma once
 #include <filesystem>
+#include "Result.h"
 
-uint32_t count_lines(std::filesystem::path file);
+Lines count_lines(std::filesystem::path file);
