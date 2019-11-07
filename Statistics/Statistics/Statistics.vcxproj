@@ -155,11 +155,14 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Result.cpp" />
     <ClCompile Include="Statistics.cpp" />
     <ClCompile Include="Statistic_Functions.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="ModeEnum.h" />
     <ClInclude Include="resource.h" />
+    <ClInclude Include="Result.h" />
     <ClInclude Include="Statistic_Functions.h" />
   </ItemGroup>
   <ItemGroup>

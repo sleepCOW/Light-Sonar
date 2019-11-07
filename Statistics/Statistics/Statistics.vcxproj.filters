@@ -21,6 +21,12 @@
     <ClInclude Include="Statistic_Functions.h">
       <Filter>Source Files</Filter>
     </ClInclude>
+    <ClInclude Include="ModeEnum.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Result.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Statistics.rc">
@@ -32,6 +38,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Statistic_Functions.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Result.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

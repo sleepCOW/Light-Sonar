@@ -5,27 +5,31 @@
 #include <vector>
 #include <filesystem>
 #include "Statistic_Functions.h"
+#include "ModeEnum.h"
 
 int main(int argc, const char** argv) {
 	namespace fs = std::filesystem;
+	AppMode mode = AppMode(argc);
+	fs::path directoryPath;
 
-	if (argc == 1) {
+	if (mode == AppMode::CURRENT_FOLDER) {
+		directoryPath = fs::current_path();
+	}
+	else if (mode == AppMode::GIVEN_FOLDER) {
+		directoryPath = argv[0];
+	}
+	else {
 
 	}
-	else if (argc == 2) {
-
-	}
-	else if (argc > 2) {
-
-	}
-
 
 	for (auto& p : fs::directory_iterator(argv[1])) {
 		std::cout << p.path() << std::endl;
 		if (!p.is_directory()) {
 			std::cout << "    File size:" << p.file_size() << std::endl;
 			std::cout << "    Extension:" << p.path().extension() << std::endl;
-			count_lines(p.path());
+			auto[lines, emptyLines] = count_lines(p.path());
+			std::cout << "    Lines: " << lines << std::endl;
+			std::cout << "    Empty lines: " << emptyLines << std::endl;
 		}
 	}
 

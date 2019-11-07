@@ -2,17 +2,27 @@
 #include <filesystem>
 #include <fstream>
 #include <iostream>
+#include <string>
+#include "Result.h"
 
-uint32_t count_lines(std::filesystem::path filePath) {
+Lines count_lines(std::filesystem::path filePath) {
 	std::ifstream file(filePath);
-	uint32_t lines = 0;
+	std::string buffer;
+	Lines count{ 0, 0 };
 	
 	if (!file.is_open()) {
 		std::cout << "Failed to open file: " << filePath << std::endl;
-		return lines;
+		return count;
 	}
 
+	while (getline(file, buffer)) {
+		if (buffer.size()) {
+			count.lines++;
+		}
+		else {
+			count.emptyLines++;
+		}
+	}
 
-
-	return lines;
+	return count;
 }
