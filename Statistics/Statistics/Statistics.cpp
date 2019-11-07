@@ -10,28 +10,22 @@
 int main(int argc, const char** argv) {
 	namespace fs = std::filesystem;
 	AppMode mode = AppMode(argc);
+	Result result;
 	fs::path directoryPath;
 
 	if (mode == AppMode::CURRENT_FOLDER) {
 		directoryPath = fs::current_path();
 	}
 	else if (mode == AppMode::GIVEN_FOLDER) {
-		directoryPath = argv[0];
+		directoryPath = argv[1];
 	}
 	else {
 
 	}
 
-	for (auto& p : fs::directory_iterator(argv[1])) {
-		std::cout << p.path() << std::endl;
-		if (!p.is_directory()) {
-			std::cout << "    File size:" << p.file_size() << std::endl;
-			std::cout << "    Extension:" << p.path().extension() << std::endl;
-			auto[lines, emptyLines] = count_lines(p.path());
-			std::cout << "    Lines: " << lines << std::endl;
-			std::cout << "    Empty lines: " << emptyLines << std::endl;
-		}
-	}
+	scan_directory(directoryPath, result);
+
+	std::cout << result;
 
 	return 0;
 }

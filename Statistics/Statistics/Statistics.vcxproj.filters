@@ -18,13 +18,13 @@
     <ClInclude Include="resource.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Statistic_Functions.h">
-      <Filter>Source Files</Filter>
+    <ClInclude Include="Result.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="ModeEnum.h">
-      <Filter>Source Files</Filter>
+      <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Result.h">
+    <ClInclude Include="Statistic_Functions.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
