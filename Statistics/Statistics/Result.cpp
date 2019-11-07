@@ -3,42 +3,42 @@
 
 Result::Result()
 {
-	numFiles = 0;
-	totalLines = 0;
-	lines = { 0, 0 };
 	mode = ResultMode::ALL_EXTENSIONS;
 }
 
-Result::Result(std::set<std::string>&& neededExtensions)
+Result::Result(std::set<std::filesystem::path>&& neededExtensions)
 {
 	extensions = neededExtensions;
-	numFiles = 0;
-	totalLines = 0;
-	lines = { 0, 0 };
 	mode = ResultMode::GIVEN_EXTENSIONS;
 }
 
-void Result::addExtension(std::string extension)
+std::map<std::filesystem::path, Statistic> Result::getStats()
+{
+	return stats;
+}
+
+
+void Result::addExtension(std::filesystem::path& extension)
 {
 	extensions.insert(extension);
 }
 
-void Result::incrementFiles()
+void Result::incrementFiles(std::filesystem::path& extension)
 {
-	numFiles++;
+	stats[extension].numFiles += 1;
 }
 
-void Result::incrementLines()
+void Result::addLines(std::filesystem::path& extension, uint32_t number)
 {
-	lines.lines++;
+	stats[extension].lines.lines += number;
 }
 
-void Result::incrementBlanks()
+void Result::addBlanks(std::filesystem::path& extension, uint32_t number)
 {
-	lines.emptyLines++;
+	stats[extension].lines.emptyLines += number;
 }
 
-bool Result::operator==(std::string extension)
+bool Result::operator==(std::filesystem::path extension)
 {
 	if (mode == ResultMode::ALL_EXTENSIONS) {
 		addExtension(extension);
@@ -48,4 +48,16 @@ bool Result::operator==(std::string extension)
 		return true;
 	}
 	return false;
+}
+
+std::ostream& operator<<(std::ostream& out, Result& r)
+{
+	std::map<std::filesystem::path, Statistic> stats = r.getStats();
+
+	for (auto& it : stats) {
+		out << "Extension: " << it.first << " Lines: " << it.second.lines.lines << " Blanks: " 
+			<< it.second.lines.emptyLines << " Files : " << it.second.numFiles << std::endl;
+	}
+
+	return out;
 }
