@@ -2,7 +2,7 @@
 //
 
 #include <iostream>
-#include <vector>
+#include <set>
 #include <filesystem>
 #include "Statistic_Functions.h"
 #include "ModeEnum.h"
@@ -10,7 +10,6 @@
 int main(int argc, const char** argv) {
 	namespace fs = std::filesystem;
 	AppMode mode = AppMode(argc);
-	Result result;
 	fs::path directoryPath;
 
 	if (mode == AppMode::CURRENT_FOLDER) {
@@ -20,8 +19,21 @@ int main(int argc, const char** argv) {
 		directoryPath = argv[1];
 	}
 	else {
+		std::set<fs::path> extensions;
+		directoryPath = argv[1];
+		for (int i = 2; i < argc; ++i) {
+			extensions.insert(argv[i]);
+		}
+		
+		Result result(move(extensions));
+		
+		scan_directory(directoryPath, result);
+		std::cout << result;
 
+		return 0;
 	}
+
+	Result result;
 
 	scan_directory(directoryPath, result);
 
