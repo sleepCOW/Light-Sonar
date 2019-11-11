@@ -4,6 +4,7 @@
 #include <iostream>
 #include <set>
 #include <filesystem>
+#include <chrono>
 #include "Statistic_Functions.h"
 #include "ModeEnum.h"
 
@@ -35,8 +36,13 @@ int main(int argc, const char** argv) {
 
 	Result result;
 
+	auto t1 = std::chrono::high_resolution_clock::now();
 	scan_directory(directoryPath, result);
+	auto t2 = std::chrono::high_resolution_clock::now();
+	
+	auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(t2 - t1).count();
 
+	std::cout << "Time used: " << duration << " ms" << std::endl;
 	std::cout << result;
 
 	return 0;
