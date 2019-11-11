@@ -1,4 +1,5 @@
 #include <array>
+#include <string>
 #include "Result.h"
 #include "ModeEnum.h"
 
@@ -66,47 +67,82 @@ std::ostream& operator<<(std::ostream& out, Result& r)
 		constexpr int sumWidth = 15;
 		constexpr int totalWidth = extensionWidth + fileWidth + lineWidth + blankWidth + sumWidth + COLUMNSIZE;
 
-		auto print_break = [&totalWidth]
+		auto print_break = [&totalWidth, &out]
 		{
-			std::cout.width(totalWidth);
-			std::cout.fill('-');
-			std::cout << '-' << std::endl;
-			std::cout.fill(' ');
+			out.width(totalWidth);
+			out.fill('-');
+			out << '-' << std::endl;
+			out.fill(' ');
 		};
-		auto print_headers = [&extensionWidth, &fileWidth, &lineWidth, &blankWidth, &sumWidth]
+		auto print_headers = [&extensionWidth, &fileWidth, &lineWidth, &blankWidth, &sumWidth, &out]
 		{
 			using table_t = std::array<std::string, COLUMNSIZE>;
 			table_t headers{ {"Extensions", "Files", "Lines", "Blanks", "Total"} };
 			auto& [extension, file, line, blank, total] = headers;
-			std::cout.width(extensionWidth);
-			std::cout << ("| " + extension) << '|';
+			out.width(extensionWidth);
+			out << ("| " + extension) << '|';
 
-			std::cout.width(fileWidth);
-			std::cout << (' ' + file) << '|';
+			out.width(fileWidth);
+			out << (' ' + file) << '|';
 
-			std::cout.width(lineWidth);
-			std::cout << (' ' + line) << '|';
+			out.width(lineWidth);
+			out << (' ' + line) << '|';
 
-			std::cout.width(blankWidth);
-			std::cout << (' ' + blank) << '|';
+			out.width(blankWidth);
+			out << (' ' + blank) << '|';
 
-			std::cout.width(sumWidth);
-			std::cout << (' ' + total) << '|';
-
-			std::cout << '\n';
+			out.width(sumWidth);
+			out << (' ' + total) << '|' << std::endl;
 		};
 
 		std::cout.setf(std::ios::left, std::ios::adjustfield);
 		print_break();
 		print_headers();
 		print_break();
+
+		Statistic sum;
 		for (auto& it : stats) {
-			out << "Extension: " << it.first << " Lines: " << it.second.lines.lines << " Blanks: " 
-				<< it.second.lines.emptyLines << " Files : " << it.second.numFiles << std::endl;
+			out.width(extensionWidth);
+			out << ("| " + it.first.string()) << '|';
+
+			out.width(fileWidth);
+			out << (' ' + std::to_string(it.second.numFiles)) << '|';
+
+			out.width(lineWidth);
+			out << (' ' + std::to_string(it.second.lines.lines)) << '|';
+
+			out.width(blankWidth);
+			out << (' ' + std::to_string(it.second.lines.emptyLines)) << '|';
+
+			out.width(sumWidth);
+			out << (' ' + std::to_string(it.second.lines.get_total_lines())) << '|' << std::endl;
+
+			print_break();
+
+			sum.numFiles += it.second.numFiles;
+			sum.lines.lines += it.second.lines.lines;
+			sum.lines.emptyLines += it.second.lines.emptyLines;
 		}
+
+		out.width(extensionWidth);
+		out << ("| SUM") << '|';
+
+		out.width(fileWidth);
+		out << (' ' + std::to_string(sum.numFiles)) << '|';
+
+		out.width(lineWidth);
+		out << (' ' + std::to_string(sum.lines.lines)) << '|';
+
+		out.width(blankWidth);
+		out << (' ' + std::to_string(sum.lines.emptyLines)) << '|';
+
+		out.width(sumWidth);
+		out << (' ' + std::to_string(sum.lines.get_total_lines())) << '|' << std::endl;
+
+		print_break();
 	}
 	else {
-
+		out << "No needed files have been found :<" << std::endl;
 	}
 
 	return out;

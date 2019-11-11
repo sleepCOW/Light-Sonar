@@ -6,15 +6,15 @@
 #include "ModeEnum.h"
 
 struct Lines {
-	uint32_t lines = 0;
-	uint32_t emptyLines = 0;
+	int64_t lines = 0;
+	int64_t emptyLines = 0;
 
-	uint32_t get_total_lines(){ return lines + emptyLines; }
+	const int64_t get_total_lines(){ return lines + emptyLines; }
 };
 
 struct Statistic {
 	Lines lines = { 0, 0 };
-	uint32_t numFiles = 0;
+	int64_t numFiles = 0;
 };
 
 class Result
