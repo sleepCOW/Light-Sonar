@@ -31,7 +31,12 @@ void scan_directory(std::filesystem::path directoryPath, Result& result)
 {
 	for (auto& iter : std::filesystem::directory_iterator(directoryPath)) {
 		if (iter.is_directory()) {
-			scan_directory(iter.path(), result);
+			try {
+				scan_directory(iter.path(), result);
+			}
+			catch (std::filesystem::filesystem_error & er) {
+				std::cout << er.what() << std::endl;
+			}
 		}
 		else if (std::filesystem::path extension = iter.path().extension(); result == extension) {
 				auto [lines, blanks] = count_lines(iter.path());

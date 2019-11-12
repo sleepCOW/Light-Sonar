@@ -13,6 +13,7 @@ int main(int argc, const char** argv) {
 	AppMode mode = AppMode(argc);
 	fs::path directoryPath;
 
+
 	if (mode == AppMode::CURRENT_FOLDER) {
 		directoryPath = fs::current_path();
 	}
@@ -37,7 +38,12 @@ int main(int argc, const char** argv) {
 	Result result;
 
 	auto t1 = std::chrono::high_resolution_clock::now();
-	scan_directory(directoryPath, result);
+	try {
+		scan_directory(directoryPath, result);
+	}
+	catch (fs::filesystem_error & er) {
+		std::cout << er.what() << std::endl;
+	}
 	auto t2 = std::chrono::high_resolution_clock::now();
 	
 	auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(t2 - t1).count();
