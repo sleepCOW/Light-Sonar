@@ -11,47 +11,61 @@
 
 int main(int argc, const char** argv) {
 	namespace fs = std::filesystem;
-	AppMode mode = AppMode(argc);
-	std::vector<fs::path> directorys;
+	std::vector<fs::path> directories;
 	std::vector<fs::path> files;
+	std::set<fs::path> extensions;
+	Result* result = nullptr;
 
-	 
-	if (mode == AppMode::CURRENT_FOLDER) {
-		directoryPath = fs::current_path();
+	for (int i = 1; i < argc; ++i) {
+		fs::path argument = { argv[i] };
+		
+		if (fs::is_directory(argument)) {
+			directories.push_back(argument);
+		}
+		else if (fs::is_regular_file(argument)) {
+			files.push_back(argument);
+		}
+		else {
+			extensions.insert(argument);
+		}
 	}
-	else if (mode == AppMode::GIVEN_FOLDER) {
-		directoryPath = argv[1];
+	 
+	if (extensions.size()) {
+		result = new Result(move(extensions));
 	}
 	else {
-		std::set<fs::path> extensions;
-		directoryPath = argv[1];
-		for (int i = 2; i < argc; ++i) {
-			extensions.insert(argv[i]);
-		}
-		
-		Result result(move(extensions));
-		
-		scan_directory(directoryPath, result);
-		std::cout << result;
-
-		return 0;
+		result = new Result();
 	}
-
-	Result result;
-
-	auto t1 = std::chrono::high_resolution_clock::now();
-	try {
-		scan_directory(directoryPath, result);
-	}
-	catch (fs::filesystem_error & er) {
-		std::cout << er.what() << std::endl;
-	}
-	auto t2 = std::chrono::high_resolution_clock::now();
 	
+	auto t1 = std::chrono::high_resolution_clock::now();
+	if (directories.size()) {
+		for (auto& directory : directories) {
+			try {
+				scan_directory(directory, *result);
+			}
+			catch (fs::filesystem_error & er) {
+				std::cout << er.what() << std::endl;
+			}
+		}
+	} else if (!files.size()) {
+		try {
+			scan_directory(fs::current_path(), *result);
+		}
+		catch (fs::filesystem_error & er) {
+			std::cout << er.what() << std::endl;
+		}
+	}
+
+	for (auto& file : files) {
+		result->addExtension(file.extension());
+		scan_file(file, *result);
+	}
+	
+	auto t2 = std::chrono::high_resolution_clock::now();
 	auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(t2 - t1).count();
 
 	std::cout << "Time used: " << duration << " ms" << std::endl;
-	std::cout << result;
+	std::cout << *result;
 
 	return 0;
 }
