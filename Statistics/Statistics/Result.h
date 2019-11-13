@@ -6,15 +6,15 @@
 #include "ModeEnum.h"
 
 struct Lines {
-	int64_t lines = 0;
-	int64_t emptyLines = 0;
+	uint64_t lines = 0;
+	uint64_t emptyLines = 0;
 
-	const int64_t get_total_lines(){ return lines + emptyLines; }
+	const uint64_t get_total_lines(){ return lines + emptyLines; }
 };
 
 struct Statistic {
 	Lines lines = { 0, 0 };
-	int64_t numFiles = 0;
+	uint64_t numFiles = 0;
 };
 
 class Result
@@ -29,10 +29,10 @@ public:
 
 	std::map<std::filesystem::path, Statistic> getStats();
 
-	void addExtension(std::filesystem::path& extension);
-	void incrementFiles(std::filesystem::path& extension);
-	void addLines(std::filesystem::path& extension, uint32_t number);
-	void addBlanks(std::filesystem::path& extension, uint32_t number);
+	void addExtension(const std::filesystem::path& extension);
+	void incrementFiles(const std::filesystem::path& extension);
+	void addLines(const std::filesystem::path& extension, uint64_t number);
+	void addBlanks(const std::filesystem::path& extension, uint64_t number);
 
 	bool operator==(std::filesystem::path extension);
 };

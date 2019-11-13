@@ -22,22 +22,22 @@ std::map<std::filesystem::path, Statistic> Result::getStats()
 }
 
 
-void Result::addExtension(std::filesystem::path& extension)
+void Result::addExtension(const std::filesystem::path& extension)
 {
 	extensions.insert(extension);
 }
 
-void Result::incrementFiles(std::filesystem::path& extension)
+void Result::incrementFiles(const std::filesystem::path& extension)
 {
 	stats[extension].numFiles += 1;
 }
 
-void Result::addLines(std::filesystem::path& extension, uint32_t number)
+void Result::addLines(const std::filesystem::path& extension, uint64_t number)
 {
 	stats[extension].lines.lines += number;
 }
 
-void Result::addBlanks(std::filesystem::path& extension, uint32_t number)
+void Result::addBlanks(const std::filesystem::path& extension, uint64_t number)
 {
 	stats[extension].lines.emptyLines += number;
 }
