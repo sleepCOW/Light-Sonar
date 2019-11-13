@@ -27,8 +27,7 @@ Lines count_lines(std::filesystem::path filePath) {
 	return count;
 }
 
-void scan_directory(std::filesystem::path directoryPath, Result& result)
-{
+void scan_directory(std::filesystem::path directoryPath, Result& result) {
 	for (auto& iter : std::filesystem::directory_iterator(directoryPath)) {
 		if (iter.is_directory()) {
 			try {
@@ -38,11 +37,17 @@ void scan_directory(std::filesystem::path directoryPath, Result& result)
 				std::cout << er.what() << std::endl;
 			}
 		}
-		else if (auto extension = iter.path().extension(); result == extension) {
-				auto [lines, blanks] = count_lines(iter.path());
-				result.addLines(extension, lines);
-				result.addBlanks(extension, blanks);
-				result.incrementFiles(extension);
+		else {
+			scan_file(iter.path(), result);
 		}
+	}
+}
+
+void scan_file(std::filesystem::path filePath, Result& result) {
+	if (auto extension = filePath.extension(); result == extension) {
+		auto [lines, blanks] = count_lines(filePath);
+		result.addLines(extension, lines);
+		result.addBlanks(extension, blanks);
+		result.incrementFiles(extension);
 	}
 }
