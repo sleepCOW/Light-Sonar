@@ -4,4 +4,4 @@ all: Statistics.cpp
 	g++ -Wall -o john Statistics.cpp *.o -std=c++17
 
 clean: 
-	$(RM) myprog
+	$(RM) john
