@@ -3,6 +3,7 @@
 
 #include <iostream>
 #include <set>
+#include <vector>
 #include <filesystem>
 #include <chrono>
 #include "Statistic_Functions.h"
@@ -11,9 +12,10 @@
 int main(int argc, const char** argv) {
 	namespace fs = std::filesystem;
 	AppMode mode = AppMode(argc);
-	fs::path directoryPath;
+	std::vector<fs::path> directorys;
+	std::vector<fs::path> files;
 
-
+	 
 	if (mode == AppMode::CURRENT_FOLDER) {
 		directoryPath = fs::current_path();
 	}
