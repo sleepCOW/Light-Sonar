@@ -1,15 +1,18 @@
-#pragma once
+#ifndef RESULT_H
+#define RESULT_H
+
+#include <iostream>
 #include <set>
 #include <filesystem>
 #include <map>
-#include <iostream>
+
 #include "ModeEnum.h"
 
 struct Lines {
 	uint64_t lines = 0;
 	uint64_t emptyLines = 0;
 
-	const uint64_t get_total_lines(){ return lines + emptyLines; }
+	const uint64_t getTotalLines(){ return lines + emptyLines; }
 };
 
 struct Statistic {
@@ -38,3 +41,5 @@ public:
 };
 
 std::ostream& operator<<(std::ostream& out, Result& r);
+
+#endif // RESULT_H

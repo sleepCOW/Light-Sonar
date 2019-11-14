@@ -1,6 +1,8 @@
+#include "Result.h"
+
 #include <array>
 #include <string>
-#include "Result.h"
+
 #include "ModeEnum.h"
 
 #define COLUMNSIZE 5
@@ -60,6 +62,7 @@ std::ostream& operator<<(std::ostream& out, Result& r)
 
 	if (stats.size()) {
 
+		Statistic sum;
 		constexpr int extensionWidth = 20;
 		constexpr int fileWidth = 15;
 		constexpr int lineWidth = 15;
@@ -100,7 +103,6 @@ std::ostream& operator<<(std::ostream& out, Result& r)
 		print_headers();
 		print_break();
 
-		Statistic sum;
 		for (auto& it : stats) {
 			out.width(extensionWidth);
 			out << ("| " + it.first.string()) << '|';
@@ -115,7 +117,7 @@ std::ostream& operator<<(std::ostream& out, Result& r)
 			out << (' ' + std::to_string(it.second.lines.emptyLines)) << '|';
 
 			out.width(sumWidth);
-			out << (' ' + std::to_string(it.second.lines.get_total_lines())) << '|' << std::endl;
+			out << (' ' + std::to_string(it.second.lines.getTotalLines())) << '|' << std::endl;
 
 			print_break();
 
@@ -137,7 +139,7 @@ std::ostream& operator<<(std::ostream& out, Result& r)
 		out << (' ' + std::to_string(sum.lines.emptyLines)) << '|';
 
 		out.width(sumWidth);
-		out << (' ' + std::to_string(sum.lines.get_total_lines())) << '|' << std::endl;
+		out << (' ' + std::to_string(sum.lines.getTotalLines())) << '|' << std::endl;
 
 		print_break();
 	}

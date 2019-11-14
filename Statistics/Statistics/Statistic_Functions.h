@@ -1,9 +1,14 @@
-#pragma once
+#ifndef STATISTIC_FUNCTIONS_H
+#define STATISTIC_FUNCTIONS_H
+
 #include <filesystem>
+
 #include "Result.h"
 
-Lines count_lines(std::filesystem::path file);
+Lines countLines(std::filesystem::path file);
 
-void scan_directory(std::filesystem::path directoryPath, Result& result);
+void scanDirectory(std::filesystem::path directoryPath, Result& result);
 
-void scan_file(std::filesystem::path filePath, Result& result);
+void scanFile(std::filesystem::path filePath, Result& result);
+
+#endif // STATISTIC_FUNCTIONS_H
