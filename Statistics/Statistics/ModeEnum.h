@@ -7,4 +7,4 @@ enum class ResultMode {
 	ALL_EXTENSIONS = 1,
 };
 
-#endif MODE_ENUM_H
+#endif // MODE_ENUM_H
