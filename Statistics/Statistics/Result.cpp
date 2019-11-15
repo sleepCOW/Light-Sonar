@@ -63,7 +63,7 @@ std::ostream& operator<<(std::ostream& out, Result& r)
 	if (stats.size()) {
 
 		Statistic sum;
-		constexpr int extensionWidth = 20;
+		constexpr int extensionWidth = 15;
 		constexpr int fileWidth = 15;
 		constexpr int lineWidth = 15;
 		constexpr int blankWidth = 15;
