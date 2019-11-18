@@ -31,14 +31,14 @@ int main(int argc, const char** argv) {
 	}
 	 
 	if (extensions.size()) {
-		result = new Result(move(extensions));
+		result = new Result(move(extensions)); // Scan only given extensions
 	}
 	else {
-		result = new Result();
+		result = new Result(); // Scan all extensions
 	}
 	
 	auto t1 = std::chrono::high_resolution_clock::now();
-	if (directories.size()) {
+	if (directories.size()) { // Directories given
 		for (auto& directory : directories) {
 			try {
 				scan_directory(directory, *result);
@@ -47,7 +47,7 @@ int main(int argc, const char** argv) {
 				std::cout << er.what() << std::endl;
 			}
 		}
-	} else if (!files.size()) {
+	} else if (!files.size()) { // No directories and files given
 		try {
 			scan_directory(fs::current_path(), *result);
 		}
@@ -56,7 +56,7 @@ int main(int argc, const char** argv) {
 		}
 	}
 
-	for (auto& file : files) {
+	for (auto& file : files) { // Scan all given files
 		result->addExtension(file.extension());
 		scan_file(file, *result);
 	}
