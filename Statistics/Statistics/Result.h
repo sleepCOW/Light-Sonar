@@ -17,8 +17,8 @@ struct Statistic {
 	uint64_t numFiles = 0;
 };
 
-class Result
-{
+class Result {
+
 private:
 	std::set<std::filesystem::path> extensions;
 	std::map<std::filesystem::path, Statistic> stats;
