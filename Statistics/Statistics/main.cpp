@@ -2,16 +2,18 @@
 //
 
 #include <iostream>
-#include <set>
-#include <vector>
 #include <filesystem>
 #include <chrono>
+#include <set>
+#include <vector>
+
 #include "Statistic_Functions.h"
 #include "ModeEnum.h"
 
 int main(int argc, const char** argv) {
 	namespace fs = std::filesystem;
-	std::vector<fs::path> directories;
+
+	std::vector<fs::path> directories; // Nitpick: directories and files could be in one line
 	std::vector<fs::path> files;
 	std::set<fs::path> extensions;
 	Result* result = nullptr;
@@ -41,7 +43,7 @@ int main(int argc, const char** argv) {
 	if (directories.size()) { // Directories given
 		for (auto& directory : directories) {
 			try {
-				scan_directory(directory, *result);
+				scanDirectory(directory, *result);
 			}
 			catch (fs::filesystem_error & er) {
 				std::cout << er.what() << std::endl;
@@ -49,7 +51,7 @@ int main(int argc, const char** argv) {
 		}
 	} else if (!files.size()) { // No directories and files given
 		try {
-			scan_directory(fs::current_path(), *result);
+			scanDirectory(fs::current_path(), *result);
 		}
 		catch (fs::filesystem_error & er) {
 			std::cout << er.what() << std::endl;
@@ -58,7 +60,7 @@ int main(int argc, const char** argv) {
 
 	for (auto& file : files) { // Scan all given files
 		result->addExtension(file.extension());
-		scan_file(file, *result);
+		scanFile(file, *result);
 	}
 	
 	auto t2 = std::chrono::high_resolution_clock::now();
@@ -69,14 +71,3 @@ int main(int argc, const char** argv) {
 
 	return 0;
 }
-
-// Run program: Ctrl + F5 or Debug > Start Without Debugging menu
-// Debug program: F5 or Debug > Start Debugging menu
-
-// Tips for Getting Started: 
-//   1. Use the Solution Explorer window to add/manage files
-//   2. Use the Team Explorer window to connect to source control
-//   3. Use the Output window to see build output and other messages
-//   4. Use the Error List window to view errors
-//   5. Go to Project > Add New Item to create new code files, or Project > Add Existing Item to add existing code files to the project
-//   6. In the future, to open this project again, go to File > Open > Project and select the .sln file

@@ -1,11 +1,13 @@
 #include "Statistic_Functions.h"
+
 #include <filesystem>
 #include <fstream>
 #include <iostream>
 #include <string>
+
 #include "Result.h"
 
-Lines count_lines(std::filesystem::path filePath) {
+Lines countLines(std::filesystem::path filePath) {
 	std::ifstream file(filePath);
 	std::string buffer;
 	Lines count{ 0, 0 };
@@ -27,25 +29,25 @@ Lines count_lines(std::filesystem::path filePath) {
 	return count;
 }
 
-void scan_directory(std::filesystem::path directoryPath, Result& result) {
+void scanDirectory(std::filesystem::path directoryPath, Result& result) {
 	for (auto& iter : std::filesystem::directory_iterator(directoryPath)) {
 		if (iter.is_directory()) {
 			try {
-				scan_directory(iter.path(), result);
+				scanDirectory(iter.path(), result);
 			}
 			catch (std::filesystem::filesystem_error & er) {
 				std::cout << er.what() << std::endl;
 			}
 		}
 		else {
-			scan_file(iter.path(), result);
+			scanFile(iter.path(), result);
 		}
 	}
 }
 
-void scan_file(std::filesystem::path filePath, Result& result) {
+void scanFile(std::filesystem::path filePath, Result& result) {
 	if (auto extension = filePath.extension(); result == extension) {
-		auto [lines, blanks] = count_lines(filePath);
+		auto [lines, blanks] = countLines(filePath);
 		result.addLines(extension, lines);
 		result.addBlanks(extension, blanks);
 		result.incrementFiles(extension);
